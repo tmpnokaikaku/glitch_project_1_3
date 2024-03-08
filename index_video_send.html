@@ -20,11 +20,15 @@
 
         async function startCamera() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const constraints = {
+                    video: {
+                        width: { ideal: 640 },  // 希望する幅
+                        height: { ideal: 360 }   // 希望する高さ
+                    }
+                };
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
                 videoElement.srcObject = stream;
-                // WebSocket接続の開始
                 startWebSocket();
-                // MediaRecorderの設定
                 setupMediaRecorder(stream);
             } catch (error) {
                 console.error('カメラのアクセスに失敗しました: ', error);
